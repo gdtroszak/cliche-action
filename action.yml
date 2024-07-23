@@ -34,7 +34,7 @@ runs:
     - name: cache cliche
       uses: actions/cache@v2
       with:
-        path: ~/.cargo/bin
+        path: ~/.cargo
         key: ${{ runner.os }}-cliche-1.0.2
         restore-keys: |
           ${{ runner.os }}-cliche-
