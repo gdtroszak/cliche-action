@@ -1,0 +1,58 @@
+name: "cliche action"
+description: "Generates a static site with cliche and creates an artifact."
+author: "gdtroszak"
+inputs:
+  name:
+    description: "Artifact name"
+    required: false
+    default: "cliche-site"
+  content-path:
+    description: "Path to the site content."
+    required: false
+    default: "content"
+  header-path:
+    description: "Path to the site header."
+    required: false
+    default: "header.md"
+  footer-path:
+    description: "Path to the site footer."
+    required: false
+    default: "footer.md"
+  style-path:
+    description: "Path to the site style."
+    required: false
+    default: "style.css"
+outputs:
+  artifact-id:
+    description: "The ID of the artifact that was uploaded."
+    value: ${{ steps.upload-artifact.outputs.artifact-id }}
+runs:
+  using: composite
+  steps:
+    - name: rust setup
+      uses: dtolnay/rust-toolchain@stable
+    - name: cache cliche
+      uses: actions/cache@v2
+      with:
+        path: ~/.cargo/bin
+        key: ${{ runner.os }}-cliche-1.0.2
+        restore-keys: |
+          ${{ runner.os }}-cliche-
+    - name: setup cache
+      uses: Swatinem/rust-cache@v2
+    - name: install dependencies
+      shell: bash
+      run: cargo install cliche --version "1.0.2"
+    - name: build site
+      shell: bash
+      run: |
+        cliche ${{ inputs.content-path }} \
+          --header=${{ inputs.header-path }} \
+          --footer=${{ inputs.footer-path }} \
+          --style=${{ inputs.style-path }}
+    - name: upload artifact
+      id: upload-artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        name: ${{ inputs.name }}
+        path: './_site'
