@@ -38,8 +38,6 @@ runs:
         key: ${{ runner.os }}-cliche-1.0.2
         restore-keys: |
           ${{ runner.os }}-cliche-
-    - name: setup cache
-      uses: Swatinem/rust-cache@v2
     - name: install dependencies
       shell: bash
       run: cargo install cliche --version "1.0.2"
