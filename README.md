@@ -84,7 +84,3 @@ All inputs are optional.
     <td>The ID of the artifact that was uploaded.</td>
   </tr>
 </table>
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) for details.
