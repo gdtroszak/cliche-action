@@ -22,6 +22,9 @@ inputs:
     description: "Path to the site style."
     required: false
     default: "style.css"
+  domain:
+    description: "Domain where the site will be hosted."
+    require: false
 outputs:
   artifact-id:
     description: "The ID of the artifact that was uploaded."
@@ -44,10 +47,16 @@ runs:
     - name: build site
       shell: bash
       run: |
+        DOMAIN_ARG=""
+        if [ -n "${{ inputs.domain }}" ]; then
+          DOMAIN_ARG="--domain=${{ inputs.domain }}"
+        fi
+        
         cliche ${{ inputs.content-path }} \
           --header=${{ inputs.header-path }} \
           --footer=${{ inputs.footer-path }} \
-          --style=${{ inputs.style-path }}
+          --style=${{ inputs.style-path }} \
+          $DOMAIN_ARG
     - name: upload artifact
       id: upload-artifact
       uses: actions/upload-pages-artifact@v3
