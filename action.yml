@@ -24,7 +24,7 @@ inputs:
     default: "style.css"
   domain:
     description: "Domain where the site will be hosted."
-    require: false
+    required: false
 outputs:
   artifact-id:
     description: "The ID of the artifact that was uploaded."
@@ -35,7 +35,7 @@ runs:
     - name: rust setup
       uses: dtolnay/rust-toolchain@stable
     - name: cache cliche
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.cargo
         key: ${{ runner.os }}-cliche-1.1.1
