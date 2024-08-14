@@ -70,6 +70,10 @@ All inputs are optional.
     <td>style-path</td>
     <td>Path to the site style. Default is "style.css".</td>
   </tr>
+  <tr>
+    <td>domain</td>
+    <td>Domain where the site will be hosted. If not specified, a sitemap will not be generated.</td>
+  </tr>
 </table>
 
 ## Outputs
