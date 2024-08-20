@@ -74,6 +74,13 @@ All inputs are optional.
     <td>domain</td>
     <td>Domain where the site will be hosted. If not specified, a sitemap will not be generated.</td>
   </tr>
+  <tr>
+    <td>base-url</td>
+    <td>
+      A base url that the site will be served from. If not specified, the site
+      will be served from the root of the domain.
+    </td>
+  </tr>
 </table>
 
 ## Outputs

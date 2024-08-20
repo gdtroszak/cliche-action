@@ -25,6 +25,9 @@ inputs:
   domain:
     description: "Domain where the site will be hosted."
     required: false
+  base-url:
+    description: "A base url that the site will be served from."
+    required: false
 outputs:
   artifact-id:
     description: "The ID of the artifact that was uploaded."
@@ -38,12 +41,12 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.cargo
-        key: ${{ runner.os }}-cliche-1.1.1
+        key: ${{ runner.os }}-cliche-1.2.0
         restore-keys: |
           ${{ runner.os }}-cliche-
     - name: install dependencies
       shell: bash
-      run: cargo install cliche --version "1.1.1"
+      run: cargo install cliche --version "1.2.0"
     - name: build site
       shell: bash
       run: |
@@ -51,12 +54,18 @@ runs:
         if [ -n "${{ inputs.domain }}" ]; then
           DOMAIN_ARG="--domain=${{ inputs.domain }}"
         fi
+
+        BASE_URL_ARG=""
+        if [ -n "${{ inputs.base-url }}" ]; then
+          BASE_URL_ARG="--base-url=${{ inputs.base-url }}"
+        fi
         
         cliche ${{ inputs.content-path }} \
           --header=${{ inputs.header-path }} \
           --footer=${{ inputs.footer-path }} \
           --style=${{ inputs.style-path }} \
-          $DOMAIN_ARG
+          $DOMAIN_ARG \
+          $BASE_URL_ARG
     - name: upload artifact
       id: upload-artifact
       uses: actions/upload-pages-artifact@v3
